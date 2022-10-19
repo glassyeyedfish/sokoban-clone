@@ -1,3 +1,3 @@
 # Square Game
 
-A simple game where each iteration add a single new mechanic/feature/whatever.
+A simple game where each iteration adds a single new mechanic/feature/whatever.
