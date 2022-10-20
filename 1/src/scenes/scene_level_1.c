@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "entities.h"
@@ -5,6 +6,7 @@
 
 struct level_1 {
         player_t player;
+        wall_t wall;
 };
 
 static struct level_1* scene;
@@ -13,12 +15,22 @@ void
 scene_l1_load(void) {
         scene = malloc(sizeof(struct level_1));
         scene->player = player_new(16, 16);
+        scene->wall = wall_new(64, 64, 16, 16);
 }
 
 void
 scene_l1_draw(void) {
         player_move(&scene->player);
+
+        if (aabb_is_overlapping(
+                &scene->player.aabb,
+                &scene->wall.aabb
+        )) {
+                printf("%d\n", scene->player.x);
+        }
+
         player_draw(&scene->player);
+        wall_draw(&scene->wall);
 }
 
 void

@@ -39,6 +39,8 @@ typedef struct {
 #define HL_BLACK (hl_color_t) {   0,   0,   0, 255 }
 #define HL_WHITE (hl_color_t) { 255, 255, 255, 255 }
 
+#define HL_GREEN (hl_color_t) {   0, 255,   0, 255 }
+
 /* window */
 result_void_t hl_open_window(const char* title, int width, int height);
 void hl_close_window(void);

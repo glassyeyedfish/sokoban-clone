@@ -51,3 +51,15 @@ hl_draw_rect(hl_rect_t rect, hl_color_t color) {
         );
         SDL_RenderDrawRect(ctx.renderer, (SDL_Rect*) &rect);
 }
+
+void 
+hl_fill_rect(hl_rect_t rect, hl_color_t color) {
+        SDL_SetRenderDrawColor(
+                ctx.renderer, 
+                color.r, 
+                color.g, 
+                color.b,
+                color.a
+        );
+        SDL_RenderFillRect(ctx.renderer, (SDL_Rect*) &rect);
+}
