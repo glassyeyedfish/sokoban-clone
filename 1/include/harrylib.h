@@ -19,9 +19,7 @@ typedef struct {
 
 typedef enum {
         HL_KEY_RIGHT   = 278,
-        HL_KEY_LEFT    = 279,
-        HL_KEY_DOWN    = 280,
-        HL_KEY_UP      = 281
+        HL_KEY_LEFT, HL_KEY_DOWN, HL_KEY_UP
 } hl_key_t;
 
 typedef struct {
@@ -31,12 +29,20 @@ typedef struct {
         unsigned char a;
 } hl_color_t;
 
+typedef struct {
+        int x;
+        int y;
+        int w;
+        int h;
+} hl_rect_t;
+
 #define HL_BLACK (hl_color_t) {   0,   0,   0, 255 }
 #define HL_WHITE (hl_color_t) { 255, 255, 255, 255 }
 
 /* window */
-result_void_t hl_open_window(void);
+result_void_t hl_open_window(const char* title, int width, int height);
 void hl_close_window(void);
+void hl_scale_window(float x, float y);
 
 /* util */
 void hl_delay(unsigned int ms);
@@ -51,5 +57,8 @@ int hl_is_key_pressed(hl_key_t key);
 void hl_begin_draw(void);
 void hl_end_draw(void);
 void hl_clear(hl_color_t color);
+
+/* shapes */
+void hl_draw_rect(hl_rect_t rect, hl_color_t color);
 
 #endif

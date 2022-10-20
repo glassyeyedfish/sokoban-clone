@@ -31,3 +31,23 @@ hl_clear(hl_color_t color) {
         );
         SDL_RenderClear(ctx.renderer);
 }
+
+/*
+================================================================================
+
+        SHAPES
+
+================================================================================
+*/
+
+void 
+hl_draw_rect(hl_rect_t rect, hl_color_t color) {
+        SDL_SetRenderDrawColor(
+                ctx.renderer, 
+                color.r, 
+                color.g, 
+                color.b,
+                color.a
+        );
+        SDL_RenderDrawRect(ctx.renderer, (SDL_Rect*) &rect);
+}

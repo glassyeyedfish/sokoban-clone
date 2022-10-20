@@ -14,7 +14,7 @@ hl_context_t ctx = { 0 };
 */
 
 result_void_t
-hl_open_window(void) {
+hl_open_window(const char* title, int width, int height) {
         result_void_t r;
 
         if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -25,10 +25,10 @@ hl_open_window(void) {
         }
 
         ctx.window = SDL_CreateWindow(
-                "Square Game v1",
+                title,
                 SDL_WINDOWPOS_CENTERED,
                 SDL_WINDOWPOS_CENTERED,
-                640, 640, 0);
+                width, height, 0);
 
         if (ctx.window == NULL) {
                 fprintf(stderr, "SDL Error: %s", SDL_GetError());
@@ -57,6 +57,11 @@ hl_close_window(void) {
         SDL_DestroyRenderer(ctx.renderer);
         SDL_DestroyWindow(ctx.window);
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
+}
+
+void 
+hl_scale_window(float x, float y) {
+        SDL_RenderSetScale(ctx.renderer, x, y);
 }
 
 /*

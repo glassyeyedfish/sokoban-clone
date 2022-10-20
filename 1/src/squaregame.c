@@ -1,7 +1,11 @@
 #include <stdio.h>
 
-#include "result.h"
 #include "harrylib.h"
+#include "result.h"
+#include "scenes.h"
+
+#define WINDOW_SIZE 160
+#define WINDOW_SCALE 5
 
 /*
 TODO:
@@ -17,6 +21,8 @@ main_loop(void) {
 
         hl_clear(HL_BLACK);
 
+        scene_l1_draw();
+
         hl_end_draw();
 }
 
@@ -24,14 +30,21 @@ int
 main(void) {
         result_t r;
 
-        r = hl_open_window();
+        r = hl_open_window(
+                "Square Game V1", 
+                WINDOW_SIZE * WINDOW_SCALE, 
+                WINDOW_SIZE * WINDOW_SCALE
+        );
         if (r.result == RESULT_ERROR) {
                 fprintf(stderr, "[squaregame] error: %s", r.err);
-        }
-
-        while(!hl_window_should_close()) {
-                main_loop();
-                hl_delay(16);
+        } else {
+                hl_scale_window(WINDOW_SCALE, WINDOW_SCALE);
+                scene_l1_load();
+                while(!hl_window_should_close()) {
+                        main_loop();
+                        hl_delay(16);
+                }
+                scene_l1_unload();
         }
 
         hl_close_window();
