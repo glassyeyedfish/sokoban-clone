@@ -138,33 +138,3 @@ hl_is_key_pressed(hl_key_t key) {
         return ctx.current_key_state[key % HL_KEYCODE_MOD] 
                 && !ctx.previous_key_state[key % HL_KEYCODE_MOD];
 }
-
-/*
-================================================================================
-
-        DRAWING
-
-================================================================================
-*/
-
-/*
-void
-hl_begin_draw(void) {}
-
-void
-hl_end_draw(void) {
-        SDL_RenderPresent(ctx.renderer);
-}
-
-void
-hl_clear(hl_color_t color) {
-        SDL_SetRenderDrawColor(
-                ctx.renderer, 
-                color.r, 
-                color.g, 
-                color.b,
-                color.a
-        );
-        SDL_RenderClear(ctx.renderer);
-}
-*/
