@@ -3,16 +3,16 @@ CFLAGS = -ansi -pedantic -Wall -Wextra -g
 LDFLAGS = -lSDL2
 
 TGT = squaregame
-SRC = $(wildcard src/*.c)
-OBJ = $(SRC:src/%.c=build/%.o)
+SRC = $(shell find -type f -name "*.c")
+OBJ = $(SRC:./src/%.c=./build/%.o)
 
-all: build/ ${TGT}
+all: $(dir ${OBJ}) ${TGT}
 
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all ./${TGT}
+	valgrind --leak-check=full --show-leak-kinds=all ./${TGT} tests/test.taf
 
-build/:
-	mkdir -p build
+$(dir ${OBJ}):
+	mkdir -p $(dir ${OBJ})
 
 build/%.o: src/%.c
 		${CC} -c ${CFLAGS} $< -o $@
@@ -21,5 +21,5 @@ ${TGT}: ${OBJ}
 		${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:
-		rm build/*
+		rm -fr build/
 		rm ${TGT}

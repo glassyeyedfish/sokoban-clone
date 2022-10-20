@@ -44,6 +44,7 @@ sdl_init_context(sdl_context_t* ctx) {
 
 void 
 sdl_quit_context(sdl_context_t* ctx) {
+        SDL_DestroyRenderer(ctx->renderer);
         SDL_DestroyWindow(ctx->window);
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
