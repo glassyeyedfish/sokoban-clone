@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -ansi -pedantic -Wall -Wextra -g
+CFLAGS = -std=c99 -pedantic -Wall -Wextra -g -Iinclude
 LDFLAGS = -lSDL2
 
 TGT = squaregame

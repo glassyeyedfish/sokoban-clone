@@ -1,5 +1,5 @@
-#ifndef ERROR_H
-#define ERROR_H
+#ifndef RESULT_H
+#define RESULT_H
 
 /*
  * Result type inspired by the Rust programming language

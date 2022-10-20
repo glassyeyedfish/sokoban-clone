@@ -1,10 +1,7 @@
 #include <stdio.h>
 
-#include <SDL2/SDL.h>
-
-#include "player.h"
 #include "result.h"
-#include "sdl.h"
+#include "harrylib.h"
 
 /*
 TODO:
@@ -13,39 +10,31 @@ TODO:
   event handling code.
 */
 
+void
+main_loop(void) {
+        hl_poll_events();
+        hl_begin_draw();
+
+        hl_clear(HL_BLACK);
+
+        hl_end_draw();
+}
+
 int
 main(void) {
         result_t r;
-        
-        sdl_context_t ctx;
 
-        player_t player;
-
-        r = sdl_init_context(&ctx);
+        r = hl_open_window();
         if (r.result == RESULT_ERROR) {
                 fprintf(stderr, "[squaregame] error: %s", r.err);
         }
 
-        SDL_RenderSetScale(ctx.renderer, 4.0, 4.0);
-
-        player = player_new();
-
-        while(!ctx.window_should_close) {
-                sdl_poll_events(&ctx);
-
-                player_move(&player, &ctx);
-
-                SDL_SetRenderDrawColor(ctx.renderer, 0, 0, 0, 255);
-                SDL_RenderClear(ctx.renderer);
-
-                SDL_SetRenderDrawColor(ctx.renderer, 255, 255, 255, 255);
-                SDL_RenderFillRect(ctx.renderer, &player.rect);
-
-                SDL_RenderPresent(ctx.renderer);
-                SDL_Delay(100);
+        while(!hl_window_should_close()) {
+                main_loop();
+                hl_delay(16);
         }
 
-        sdl_quit_context(&ctx);
+        hl_close_window();
 
         return 0;
 }
