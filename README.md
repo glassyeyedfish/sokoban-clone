@@ -1,3 +1,3 @@
 # Square Game
 
-A simple game where each iteration adds a single new mechanic/feature/whatever.
+In order to finish a game, the plan is to make something incredibly simple, and then iterate on it so it slowly becomes more and more complex. Each finished iteration gets a numbered folder.
