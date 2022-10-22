@@ -6,7 +6,8 @@
 
 struct level_1 {
         player_t player;
-        wall_t wall;
+        wall_t wall[4];
+        block_t block;
         int delete_me;
 };
 
@@ -15,8 +16,15 @@ static struct level_1* scene;
 void
 scene_l1_load(void) {
         scene = malloc(sizeof(struct level_1));
-        scene->player = player_new(16, 16);
-        scene->wall = wall_new(64, 64, 16, 16);
+        scene->player = player_new(64, 64);
+
+        scene->wall[0] = wall_new(0, 0, 16, 160);
+        scene->wall[1] = wall_new(0, 0, 160, 16);
+        scene->wall[2] = wall_new(144, 0, 16, 160);
+        scene->wall[3] = wall_new(0, 144, 160, 16);
+
+        scene->block = block_new(96, 96);
+
         scene->delete_me = 0;
 }
 
@@ -26,17 +34,21 @@ scene_l1_draw(void) {
 
         player_move(&scene->player);
 
-        printf("%d\n", scene->wall.aabb.y);
-
-        if (aabb_is_overlapping(
-                scene->player.aabb, 
-                scene->wall.aabb
-        )) {
-                player_resolve_collision(&scene->player, &scene->wall.aabb);
+        for (int i = 0; i < 4; i++) {
+                if (aabb_is_overlapping(
+                        scene->player.aabb, 
+                        scene->wall[i].aabb
+                )) {
+                        player_resolve_collision(
+                                &scene->player, 
+                                &scene->wall[i].aabb
+                        );
+                }
+                wall_draw(&scene->wall[i]);
         }
 
+        block_draw(&scene->block);
         player_draw(&scene->player);
-        wall_draw(&scene->wall);
 }
 
 void

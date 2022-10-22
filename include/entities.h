@@ -22,4 +22,14 @@ typedef struct {
 wall_t wall_new(int x, int y, int w, int h);
 void wall_draw(wall_t* wall);
 
+typedef struct {
+        int x;
+        int y;
+        direction_t direction;
+        aabb_t aabb;
+} block_t;
+
+block_t block_new(int x, int y);
+void block_draw(block_t* block);
+
 #endif
