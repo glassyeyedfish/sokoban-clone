@@ -1,5 +1,4 @@
 TODO:
-    - Add support for multiple walls.
     - Add a block.
     - Implement block pushing.
     - Add support for multiple blocks.
