@@ -1,6 +1,14 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
 
+typedef enum {
+        DIRECTION_IDLE,
+        DIRECTION_RIGHT,
+        DIRECTION_LEFT,
+        DIRECTION_DOWN,
+        DIRECTION_UP
+} direction_t;
+
 typedef struct {
         int x;
         int y;
@@ -8,6 +16,6 @@ typedef struct {
         int h;
 } aabb_t;
 
-int aabb_is_overlapping(aabb_t* a, aabb_t* b);
+int aabb_is_overlapping(aabb_t a, aabb_t b);
 
 #endif

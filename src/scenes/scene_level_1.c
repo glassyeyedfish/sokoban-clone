@@ -26,11 +26,13 @@ scene_l1_draw(void) {
 
         player_move(&scene->player);
 
+        printf("%d\n", scene->wall.aabb.y);
+
         if (aabb_is_overlapping(
-                &scene->player.aabb,
-                &scene->wall.aabb
+                scene->player.aabb, 
+                scene->wall.aabb
         )) {
-                printf("%d\n", scene->delete_me);
+                player_resolve_collision(&scene->player, &scene->wall.aabb);
         }
 
         player_draw(&scene->player);

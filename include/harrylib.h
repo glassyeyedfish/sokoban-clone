@@ -62,5 +62,6 @@ void hl_clear(hl_color_t color);
 
 /* shapes */
 void hl_draw_rect(hl_rect_t rect, hl_color_t color);
+void hl_fill_rect(hl_rect_t rect, hl_color_t color);
 
 #endif

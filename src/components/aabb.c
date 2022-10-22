@@ -1,10 +1,10 @@
 #include "components.h"
 
 int
-aabb_is_overlapping(aabb_t* a, aabb_t* b) {
+aabb_is_overlapping(aabb_t a, aabb_t b) {
 
-        return a->x <= b->x + b->w && a->x + a->w >= b->x
-                && a->y <= b->y + b->h && a->y + a->h >= b->h;
+        return a.x <= b.x + b.w && a.x + a.w >= b.x
+                && a.y <= b.y + b.h && a.y + a.h >= b.y;
 
         /*       
         rect1.x < rect2.x + rect2.w &&

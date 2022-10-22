@@ -11,7 +11,7 @@ wall_new(int x, int y, int w, int h) {
 
 void 
 wall_draw(wall_t* wall) {
-        hl_draw_rect(
+        hl_fill_rect(
                 (hl_rect_t) {
                         wall->aabb.x, 
                         wall->aabb.y, 
