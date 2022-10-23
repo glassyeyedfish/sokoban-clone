@@ -17,5 +17,8 @@ typedef struct {
 } aabb_t;
 
 int aabb_is_overlapping(aabb_t a, aabb_t b);
+aabb_t aabb_resolve_collision(aabb_t collider, direction_t collider_direction, 
+        aabb_t collidee);
+
 
 #endif

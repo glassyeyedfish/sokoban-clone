@@ -39,9 +39,10 @@ scene_l1_draw(void) {
                         scene->player.aabb, 
                         scene->wall[i].aabb
                 )) {
-                        player_resolve_collision(
-                                &scene->player, 
-                                &scene->wall[i].aabb
+                        scene->player.aabb = aabb_resolve_collision(
+                                scene->player.aabb, 
+                                scene->player.direction,
+                                scene->wall[i].aabb
                         );
                 }
                 wall_draw(&scene->wall[i]);
