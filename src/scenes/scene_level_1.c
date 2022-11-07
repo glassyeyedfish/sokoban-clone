@@ -4,55 +4,59 @@
 #include "entities.h"
 #include "scenes.h"
 
-struct level_1 {
+#define L1_WALL_COUNT (4)
+
+struct scene_data {
         player_t player;
-        wall_t wall[4];
+        wall_t wall[L1_WALL_COUNT];
         block_t block;
-        int delete_me;
 };
 
-static struct level_1* scene;
+static struct scene_data* s;
 
 void
 scene_l1_load(void) {
-        scene = malloc(sizeof(struct level_1));
-        scene->player = player_new(64, 64);
+        s = malloc(sizeof(struct scene_data));
+        s->player = player_new(64, 64);
 
-        scene->wall[0] = wall_new(0, 0, 16, 160);
-        scene->wall[1] = wall_new(0, 0, 160, 16);
-        scene->wall[2] = wall_new(144, 0, 16, 160);
-        scene->wall[3] = wall_new(0, 144, 160, 16);
+        s->wall[0] = wall_new(0, 0, 16, 160);
+        s->wall[1] = wall_new(0, 0, 160, 16);
+        s->wall[2] = wall_new(144, 0, 16, 160);
+        s->wall[3] = wall_new(0, 144, 160, 16);
 
-        scene->block = block_new(96, 96);
+        s->block = block_new(96, 96);
+}
 
-        scene->delete_me = 0;
+void 
+scene_l1_update(void) {
+        player_move(&s->player);
+
+        for (int i = 0; i < L1_WALL_COUNT; i++) {
+                if (aabb_is_overlapping(
+                        s->player.aabb, 
+                        s->wall[i].aabb
+                )) {
+                        s->player.aabb = aabb_resolve_collision(
+                                s->player.aabb, 
+                                s->player.direction,
+                                s->wall[i].aabb
+                        );
+                }
+        }
 }
 
 void
 scene_l1_draw(void) {
-        scene->delete_me = (scene->delete_me + 1) % 100;
 
-        player_move(&scene->player);
-
-        for (int i = 0; i < 4; i++) {
-                if (aabb_is_overlapping(
-                        scene->player.aabb, 
-                        scene->wall[i].aabb
-                )) {
-                        scene->player.aabb = aabb_resolve_collision(
-                                scene->player.aabb, 
-                                scene->player.direction,
-                                scene->wall[i].aabb
-                        );
-                }
-                wall_draw(&scene->wall[i]);
+        for (int i = 0; i < L1_WALL_COUNT; i++) {
+                wall_draw(&s->wall[i]);
         }
 
-        block_draw(&scene->block);
-        player_draw(&scene->player);
+        block_draw(&s->block);
+        player_draw(&s->player);
 }
 
 void
 scene_l1_unload(void) {
-        free(scene);
+        free(s);
 }

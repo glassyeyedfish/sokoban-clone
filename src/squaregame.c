@@ -21,6 +21,7 @@ main_loop(void) {
 
         hl_clear(HL_BLACK);
 
+        scene_l1_update();
         scene_l1_draw();
 
         hl_end_draw();

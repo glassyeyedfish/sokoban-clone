@@ -34,13 +34,27 @@ player_move(player_t* player) {
 
 void
 player_draw(player_t* player) {
+        /* Body */
         hl_draw_rect(
-                (hl_rect_t) {
-                        player->aabb.x + 1, 
-                        player->aabb.y + 1, 
-                        14,
-                        14
-                },
+                (hl_rect_t) {player->aabb.x + 1, player->aabb.y + 1, 14, 14},
+                HL_WHITE
+        );
+
+        /* Left Eye */
+        hl_draw_rect(
+                (hl_rect_t) {player->aabb.x + 5, player->aabb.y + 5, 1, 2},
+                HL_WHITE
+        );
+
+        /* Right Eye */
+        hl_draw_rect(
+                (hl_rect_t) {player->aabb.x + 10, player->aabb.y + 5, 1, 2},
+                HL_WHITE
+        );
+
+        /* Mouth */
+        hl_draw_rect(
+                (hl_rect_t) {player->aabb.x + 5, player->aabb.y + 10, 6, 1},
                 HL_WHITE
         );
 }

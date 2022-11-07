@@ -21,13 +21,4 @@ block_draw(block_t* block) {
                 },
                 HL_WHITE
         );
-        hl_draw_rect(
-                (hl_rect_t) {
-                        block->aabb.x + 2, 
-                        block->aabb.y + 2, 
-                        12, 
-                        12 
-                },
-                HL_WHITE
-        );
 }
