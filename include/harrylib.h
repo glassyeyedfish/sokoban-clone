@@ -125,7 +125,14 @@ hl_open_window(const char* title, int width, int height) {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         fprintf(stderr, "SDL Error: %s", SDL_GetError());
         r.flag = HL_RESULT_ERROR;
-        r.err = "failed to init SDL2";
+        r.err = "failed to init SDL";
+        return r;
+    }
+
+    if (TTF_Init() < 0) {
+        fprintf(stderr, "TTF Error: %s", TTF_GetError());
+        r.flag = HL_RESULT_ERROR;
+        r.err = "failed to init SDL_ttf";
         return r;
     }
 
@@ -138,7 +145,7 @@ hl_open_window(const char* title, int width, int height) {
     if (ctx.window == NULL) {
         fprintf(stderr, "SDL Error: %s", SDL_GetError());
         r.flag = HL_RESULT_ERROR;
-        r.err = "failed to init SDL2 window";
+        r.err = "failed to init SDL window";
         return r;
     }
 
@@ -147,7 +154,7 @@ hl_open_window(const char* title, int width, int height) {
     if (ctx.renderer == NULL) {
         fprintf(stderr, "SDL Error: %s", SDL_GetError());
         r.flag = HL_RESULT_ERROR;
-        r.err = "failed to init SDL2 renderer";
+        r.err = "failed to init SDL renderer";
         return r;
     }
 
@@ -161,6 +168,8 @@ void
 hl_close_window(void) {
     SDL_DestroyRenderer(ctx.renderer);
     SDL_DestroyWindow(ctx.window);
+
+    TTF_Quit();
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
@@ -309,6 +318,6 @@ hl_fill_rect(hl_rect_t rect, hl_color_t color) {
     SDL_RenderFillRect(ctx.renderer, (SDL_Rect*) &rect);
 }
 
-#endif
+#endif /* HARRYLIB_IMPELMENTATION */
 
-#endif
+#endif /* HARRYLIB_H */

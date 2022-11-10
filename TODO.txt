@@ -1,4 +1,8 @@
 TODO:
-    - Add a block.
-    - Implement block pushing.
-    - Add support for multiple blocks.
+    - Font stuff
+
+DOING:
+    - Setting up stuff in scenes.h
+
+DONE:
+    - Font init 
