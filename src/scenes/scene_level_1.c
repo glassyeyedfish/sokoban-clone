@@ -5,58 +5,125 @@
 #include "scenes.h"
 
 #define L1_WALL_COUNT (4)
+#define L1_BLOCK_COUNT (3)
 
 struct scene_data {
-        player_t player;
-        wall_t wall[L1_WALL_COUNT];
-        block_t block;
+    player_t player;
+    wall_t wall[L1_WALL_COUNT];
+    block_t block[L1_BLOCK_COUNT];
 };
 
 static struct scene_data* s;
 
 void
 scene_l1_load(void) {
-        s = malloc(sizeof(struct scene_data));
-        s->player = player_new(64, 64);
+    s = malloc(sizeof(struct scene_data));
+    s->player = player_new(64, 64);
 
-        s->wall[0] = wall_new(0, 0, 16, 160);
-        s->wall[1] = wall_new(0, 0, 160, 16);
-        s->wall[2] = wall_new(144, 0, 16, 160);
-        s->wall[3] = wall_new(0, 144, 160, 16);
+    s->wall[0] = wall_new(0, 0, 16, 160);
+    s->wall[1] = wall_new(0, 0, 160, 16);
+    s->wall[2] = wall_new(144, 0, 16, 160);
+    s->wall[3] = wall_new(0, 144, 160, 16);
 
-        s->block = block_new(96, 96);
+    s->block[0] = block_new(96, 96);
+    s->block[1] = block_new(32, 32);
+    s->block[2] = block_new(32, 96);
 }
 
 void 
 scene_l1_update(void) {
-        player_move(&s->player);
+    player_move(&s->player);
 
-        for (int i = 0; i < L1_WALL_COUNT; i++) {
-                if (aabb_is_overlapping(
-                        s->player.aabb, 
-                        s->wall[i].aabb
-                )) {
-                        s->player.aabb = aabb_resolve_collision(
-                                s->player.aabb, 
-                                s->player.direction,
-                                s->wall[i].aabb
-                        );
-                }
+    // Player collision with walls
+    for (int i = 0; i < L1_WALL_COUNT; i++) {
+    if (aabb_is_overlapping(s->player.aabb, s->wall[i].aabb)) {
+        s->player.aabb = aabb_resolve_collision(
+        s->player.aabb, 
+        s->player.direction,
+        s->wall[i].aabb
+        );
+    }
+    }
+
+    // Player pushing block
+    for (int i = 0; i < L1_BLOCK_COUNT; i++) {
+    if (aabb_is_overlapping(s->player.aabb, s->block[i].aabb)) {
+        switch(s->player.direction) {
+        case DIRECTION_RIGHT:
+        s->block[i].aabb.x += 16;
+        break;
+        case DIRECTION_LEFT:
+        s->block[i].aabb.x -= 16;
+        break;
+        case DIRECTION_DOWN:
+        s->block[i].aabb.y += 16;
+        break;
+        case DIRECTION_UP:
+        s->block[i].aabb.y -= 16;
+        break;
+        default:
+        break;
         }
+    }
+    }
+
+    // block collision with walls
+    for (int i = 0; i < L1_WALL_COUNT; i++) {
+    for (int j = 0; j < L1_BLOCK_COUNT; j++) {
+        if (aabb_is_overlapping(s->block[j].aabb, s->wall[i].aabb)) {
+        s->block[j].aabb = aabb_resolve_collision(
+            s->block[j].aabb, 
+            s->player.direction,
+            s->wall[i].aabb
+        );
+
+        // Make sure to also push player back
+        s->player.aabb = aabb_resolve_collision(
+            s->player.aabb, 
+            s->player.direction,
+            s->block[j].aabb
+        );
+        }
+    }
+    }
+
+    // block collision with other blocks
+    for (int i = 0; i < L1_BLOCK_COUNT; i++) {
+    for (int j = 0; j < L1_BLOCK_COUNT; j++) {
+        if (i != j) {
+        if (aabb_is_overlapping(s->block[j].aabb, s->block[i].aabb)) {
+            s->block[j].aabb = aabb_resolve_collision(
+            s->block[j].aabb, 
+            s->player.direction,
+            s->block[i].aabb
+            );
+
+            // Make sure to also push player back
+            s->player.aabb = aabb_resolve_collision(
+            s->player.aabb, 
+            s->player.direction,
+            s->block[j].aabb
+            );
+        }
+        }
+    }
+    }
 }
 
 void
 scene_l1_draw(void) {
 
-        for (int i = 0; i < L1_WALL_COUNT; i++) {
-                wall_draw(&s->wall[i]);
-        }
+    for (int i = 0; i < L1_WALL_COUNT; i++) {
+        wall_draw(&s->wall[i]);
+    }
 
-        block_draw(&s->block);
-        player_draw(&s->player);
+    for (int i = 0; i < L1_BLOCK_COUNT; i++) {
+        block_draw(&s->block[i]);
+    }
+    player_draw(&s->player);
 }
 
 void
 scene_l1_unload(void) {
-        free(s);
+    free(s);
 }
