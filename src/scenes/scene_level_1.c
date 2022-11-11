@@ -4,7 +4,7 @@
 #include "entities.h"
 #include "scenes.h"
 
-#define L1_WALL_COUNT (4)
+#define L1_WALL_COUNT (5)
 #define L1_BLOCK_COUNT (3)
 
 struct scene_data {
@@ -25,8 +25,10 @@ scene_l1_load(void) {
     s->wall[2] = wall_new(144, 0, 16, 160);
     s->wall[3] = wall_new(0, 144, 160, 16);
 
-    s->block[0] = block_new(96, 96);
-    s->block[1] = block_new(32, 32);
+    s->wall[4] = wall_new(80, 48, 32, 16);
+
+    s->block[0] = block_new(112, 96);
+    s->block[1] = block_new(48, 32);
     s->block[2] = block_new(32, 96);
 }
 
