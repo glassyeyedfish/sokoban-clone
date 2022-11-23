@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -std=c99 -pedantic -Wall -Wextra -g -Iinclude
-LDFLAGS = -lSDL2 -lSDL2_ttf
+LDFLAGS = -lSDL2 -lSDL2_ttf -lSDL2_image
 
 TGT = squaregame
 SRC = $(shell find -type f -name "*.c")

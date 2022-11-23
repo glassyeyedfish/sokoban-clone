@@ -114,7 +114,6 @@ scene_l1_update(void) {
 
 void
 scene_l1_draw(void) {
-
     for (int i = 0; i < L1_WALL_COUNT; i++) {
         wall_draw(&s->wall[i]);
     }

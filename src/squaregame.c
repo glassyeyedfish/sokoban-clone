@@ -21,10 +21,11 @@ main_loop(void) {
     hl_poll_events();
     hl_begin_draw();
 
-    hl_clear(HL_GB1); //
+    hl_clear(HL_GB1);
 
     scene_l1_update();
-    scene_l1_draw();
+    hl_dev_test_draw();
+    // scene_l1_draw();
 
     hl_end_draw();
 }
@@ -42,12 +43,15 @@ main(void) {
         fprintf(stderr, "[squaregame] error: %s", r.err);
     } else {
         hl_scale_window(WINDOW_SCALE, WINDOW_SCALE);
+
+        hl_dev_test_load();
         scene_l1_load();
         while(!hl_window_should_close()) {
             main_loop();
             hl_delay(16);
         }
         scene_l1_unload();
+        hl_dev_test_unload();
     }
 
     hl_close_window();

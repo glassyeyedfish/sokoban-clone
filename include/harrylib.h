@@ -5,6 +5,7 @@
 #define HL_KEYCODE_MAX 512
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
 /*
@@ -58,7 +59,9 @@ typedef struct {
 } hl_rect_t;
 
 typedef struct {
-    TTF_Font* font;
+    SDL_Texture* font_atlas;
+    int char_h;
+    int char_w;
 } hl_font_t;
 
 #define HL_BLACK (hl_color_t) {   0,   0,   0, 255 }
@@ -94,7 +97,13 @@ void hl_clear(hl_color_t color);
 void hl_draw_rect(hl_rect_t rect, hl_color_t color);
 void hl_fill_rect(hl_rect_t rect, hl_color_t color);
 
+/* text */
+void hl_dev_test_load(void);
+void hl_dev_test_draw(void);
+void hl_dev_test_unload(void);
+
 #ifdef HARRYLIB_IMPLEMENTATION
+
 
 /*
 ================================================================================
@@ -109,6 +118,31 @@ void hl_fill_rect(hl_rect_t rect, hl_color_t color);
 */
 
 hl_context_t ctx = { 0 };
+
+char* text;
+
+void
+hl_dev_test_load() {
+    text = malloc(sizeof(char) * ((16 * 16) + 1));
+
+    for (int c = 0; c < (16 * 16); c++) {
+        text[c] = (char) c;
+    }
+    text[16 * 16] = '\0';
+}
+
+void
+hl_dev_test_draw() {
+    hl_draw_rect(
+        (hl_rect_t) {0, 0, 16, 16},
+        HL_WHITE
+    );
+}
+
+void 
+hl_dev_test_unload() {
+    free(text);
+}
 
 /*
 ================================================================================
@@ -126,6 +160,13 @@ hl_open_window(const char* title, int width, int height) {
         fprintf(stderr, "SDL Error: %s", SDL_GetError());
         r.flag = HL_RESULT_ERROR;
         r.err = "failed to init SDL";
+        return r;
+    }
+
+    if (IMG_Init(IMG_INIT_PNG) == 0) {
+        fprintf(stderr, "IMG Error: %s", IMG_GetError());
+        r.flag = HL_RESULT_ERROR;
+        r.err = "failed to init SDL_image";
         return r;
     }
 
