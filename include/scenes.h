@@ -4,17 +4,15 @@
 #include "harrylib.h"
 
 typedef struct {
-    hl_font_t font;
+    hl_font_t* font;
 } scene_res_t;
 
-scene_res_t scene_res;
+scene_res_t* scene_load_res(void);
+void scene_unload_res(scene_res_t* scene_res);
 
-void scene_load_res(void);
-void scene_unload_res(void);
-
-void scene_l1_load(void);
-void scene_l1_update(void);
-void scene_l1_draw(void);
-void scene_l1_unload(void);
+void scene_l1_load(scene_res_t* scene_res);
+void scene_l1_update(scene_res_t* scene_res);
+void scene_l1_draw(scene_res_t* scene_res);
+void scene_l1_unload(scene_res_t* scene_res);
 
 #endif /* SCENES_H */

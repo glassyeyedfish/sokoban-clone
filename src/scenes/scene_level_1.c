@@ -16,8 +16,13 @@ struct scene_data {
 static struct scene_data* s;
 
 void
-scene_l1_load(void) {
+scene_l1_load(scene_res_t* scene_res) {
     s = malloc(sizeof(struct scene_data));
+    scene_l1_reload(scene_res);
+}
+
+void
+scene_l1_reload(scene_res_t* scene_res) {
     s->player = player_new(64, 64);
 
     s->wall[0] = wall_new(0, 0, 16, 160);
@@ -33,7 +38,12 @@ scene_l1_load(void) {
 }
 
 void 
-scene_l1_update(void) {
+scene_l1_update(scene_res_t* scene_res) {
+    if (hl_is_key_pressed(HL_KEY_X)) {
+        scene_l1_reload(scene_res);
+    }
+
+
     player_move(&s->player);
 
     // Player collision with walls
@@ -113,18 +123,26 @@ scene_l1_update(void) {
 }
 
 void
-scene_l1_draw(void) {
+scene_l1_draw(scene_res_t* scene_res) {
+    /* walls */
     for (int i = 0; i < L1_WALL_COUNT; i++) {
         wall_draw(&s->wall[i]);
     }
 
+    /* block */
     for (int i = 0; i < L1_BLOCK_COUNT; i++) {
         block_draw(&s->block[i]);
     }
+
+    /* player */
     player_draw(&s->player);
+
+    /* instructions */
+    hl_draw_text(scene_res->font, "Level 0", 16, 4, HL_GB3);
+    hl_draw_text(scene_res->font, "Press X to reset", 16, 148, HL_GB3);
 }
 
 void
-scene_l1_unload(void) {
+scene_l1_unload(scene_res_t* scene_res) {
     free(s);
 }

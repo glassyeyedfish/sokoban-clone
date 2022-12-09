@@ -16,6 +16,8 @@ TODO:
   event handling code.
 */
 
+scene_res_t* scene_res;
+
 void
 main_loop(void) {
     hl_poll_events();
@@ -23,8 +25,8 @@ main_loop(void) {
 
     hl_clear(HL_GB1);
 
-    scene_l1_update();
-    scene_l1_draw();
+    scene_l1_update(scene_res);
+    scene_l1_draw(scene_res);
 
     hl_end_draw();
 }
@@ -43,12 +45,16 @@ main(void) {
     } else {
         hl_scale_window(WINDOW_SCALE, WINDOW_SCALE);
 
-        scene_l1_load();
+        scene_res = scene_load_res();
+
+        scene_l1_load(scene_res);
         while(!hl_window_should_close()) {
             main_loop();
             hl_delay(16);
         }
-        scene_l1_unload();
+        scene_l1_unload(scene_res);
+
+        scene_unload_res(scene_res);
     }
 
     hl_close_window();

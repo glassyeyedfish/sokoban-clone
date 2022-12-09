@@ -42,6 +42,21 @@ typedef struct {
 } hl_context_t;
 
 typedef enum {
+    HL_KEY_BKSP    = 8,
+    HL_KEY_TAB     = 9,
+    HL_KEY_RETURN  = 13,
+    HL_KEY_ESC     = 27,
+    HL_KEY_SPACE   = 32,
+    HL_KEY_0       = 48,
+    HL_KEY_1, HL_KEY_2, HL_KEY_3,
+    HL_KEY_4, HL_KEY_5, HL_KEY_6,
+    HL_KEY_7, HL_KEY_8, HL_KEY_9,
+    HL_KEY_A       = 97,
+    HL_KEY_B, HL_KEY_C, HL_KEY_D, HL_KEY_E, HL_KEY_F,
+    HL_KEY_G, HL_KEY_H, HL_KEY_I, HL_KEY_J, HL_KEY_K,
+    HL_KEY_L, HL_KEY_M, HL_KEY_N, HL_KEY_O, HL_KEY_P,
+    HL_KEY_Q, HL_KEY_R, HL_KEY_S, HL_KEY_T, HL_KEY_U,
+    HL_KEY_V, HL_KEY_W, HL_KEY_X, HL_KEY_Y, HL_KEY_Z,
     HL_KEY_RIGHT   = 278,
     HL_KEY_LEFT, HL_KEY_DOWN, HL_KEY_UP
 } hl_key_t;
@@ -342,7 +357,7 @@ hl_fill_rect(hl_rect_t rect, hl_color_t color) {
     );
     SDL_RenderFillRect(ctx.renderer, (SDL_Rect*) &rect);
 }
-`
+
 /*
 ================================================================================
 
@@ -396,10 +411,10 @@ void hl_draw_text(hl_font_t* font, const char* text, int x, int y, hl_color_t co
         src.w = font->char_w;
         src.h = font->char_h;
 
-        dst.x = x + (i * 40);
+        dst.x = x + (i * font->char_w);
         dst.y = y;
-        dst.w = 40;
-        dst.h = 40;
+        dst.w = font->char_w;
+        dst.h = font->char_h;
 
         SDL_SetTextureColorMod(font->font_atlas, color.r, color.g, color.b);
         SDL_SetTextureAlphaMod(font->font_atlas, color.a);
