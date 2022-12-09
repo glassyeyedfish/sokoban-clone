@@ -4,6 +4,8 @@
 #define HL_KEYCODE_MOD 1073741625 
 #define HL_KEYCODE_MAX 512
 
+#include<stdio.h>
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -60,9 +62,12 @@ typedef struct {
 
 typedef struct {
     SDL_Texture* font_atlas;
-    int char_h;
     int char_w;
+    int char_h;
 } hl_font_t;
+
+// The OFFICIAL color orange for the library.
+#define HL_ORANGE (hl_color_t) { 255, 115,   0, 255 }
 
 #define HL_BLACK (hl_color_t) {   0,   0,   0, 255 }
 #define HL_WHITE (hl_color_t) { 255, 255, 255, 255 }
@@ -97,10 +102,13 @@ void hl_clear(hl_color_t color);
 void hl_draw_rect(hl_rect_t rect, hl_color_t color);
 void hl_fill_rect(hl_rect_t rect, hl_color_t color);
 
+/* font */
+hl_font_t* hl_load_bitmap_font(const char* path, int char_w, int char_h);
+void hl_unload_font(hl_font_t* font);
+void hl_draw_font_atlas(hl_font_t* font);
+
 /* text */
-void hl_dev_test_load(void);
-void hl_dev_test_draw(void);
-void hl_dev_test_unload(void);
+void hl_draw_text(hl_font_t* font, const char* text, int x, int y, hl_color_t color);
 
 #ifdef HARRYLIB_IMPLEMENTATION
 
@@ -119,30 +127,6 @@ void hl_dev_test_unload(void);
 
 hl_context_t ctx = { 0 };
 
-char* text;
-
-void
-hl_dev_test_load() {
-    text = malloc(sizeof(char) * ((16 * 16) + 1));
-
-    for (int c = 0; c < (16 * 16); c++) {
-        text[c] = (char) c;
-    }
-    text[16 * 16] = '\0';
-}
-
-void
-hl_dev_test_draw() {
-    hl_draw_rect(
-        (hl_rect_t) {0, 0, 16, 16},
-        HL_WHITE
-    );
-}
-
-void 
-hl_dev_test_unload() {
-    free(text);
-}
 
 /*
 ================================================================================
@@ -357,6 +341,71 @@ hl_fill_rect(hl_rect_t rect, hl_color_t color) {
         color.a
     );
     SDL_RenderFillRect(ctx.renderer, (SDL_Rect*) &rect);
+}
+`
+/*
+================================================================================
+
+    FONT
+
+================================================================================
+*/
+
+hl_font_t* hl_load_bitmap_font(const char* path, int char_w, int char_h) {
+    hl_font_t* font = malloc(sizeof(hl_font_t));
+    SDL_Surface* surface;
+
+    surface = IMG_Load(path);
+
+    font->font_atlas = SDL_CreateTextureFromSurface(ctx.renderer, surface);
+    font->char_w = char_w;
+    font->char_h = char_h;
+
+    SDL_FreeSurface(surface);
+
+
+    return font;
+}
+
+void hl_unload_font(hl_font_t* font) {
+    SDL_DestroyTexture(font->font_atlas);
+    free(font);
+}
+
+void hl_draw_font_atlas(hl_font_t* font) {
+    SDL_RenderCopy(ctx.renderer, font->font_atlas, NULL, NULL);
+}
+
+/*
+================================================================================
+
+    TEXT
+
+================================================================================
+*/
+
+void hl_draw_text(hl_font_t* font, const char* text, int x, int y, hl_color_t color) {
+    int i;
+
+    SDL_Rect src;
+    SDL_Rect dst;
+
+    for (i = 0; text[i] != '\0'; i++) {
+        src.x = (text[i] % 16) * font->char_w;
+        src.y = (text[i] / 16) * font->char_h;
+        src.w = font->char_w;
+        src.h = font->char_h;
+
+        dst.x = x + (i * 40);
+        dst.y = y;
+        dst.w = 40;
+        dst.h = 40;
+
+        SDL_SetTextureColorMod(font->font_atlas, color.r, color.g, color.b);
+        SDL_SetTextureAlphaMod(font->font_atlas, color.a);
+        SDL_RenderCopy(ctx.renderer, font->font_atlas, &src, &dst);
+    }
+
 }
 
 #endif /* HARRYLIB_IMPELMENTATION */

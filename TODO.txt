@@ -2,7 +2,7 @@ TODO:
     - Font stuff
 
 DOING:
-    - Setting up stuff in scenes.h
 
 DONE:
+    - Setting up stuff in scenes.h
     - Font init 

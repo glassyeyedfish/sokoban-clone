@@ -24,8 +24,7 @@ main_loop(void) {
     hl_clear(HL_GB1);
 
     scene_l1_update();
-    hl_dev_test_draw();
-    // scene_l1_draw();
+    scene_l1_draw();
 
     hl_end_draw();
 }
@@ -44,14 +43,12 @@ main(void) {
     } else {
         hl_scale_window(WINDOW_SCALE, WINDOW_SCALE);
 
-        hl_dev_test_load();
         scene_l1_load();
         while(!hl_window_should_close()) {
             main_loop();
             hl_delay(16);
         }
         scene_l1_unload();
-        hl_dev_test_unload();
     }
 
     hl_close_window();
