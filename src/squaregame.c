@@ -17,6 +17,8 @@ TODO:
 */
 
 scene_res_t* scene_res;
+scene_name_t current_scene;
+scene_name_t next_scene;
 
 void
 main_loop(void) {
@@ -25,8 +27,56 @@ main_loop(void) {
 
     hl_clear(HL_GB1);
 
-    scene_l1_update(scene_res);
-    scene_l1_draw(scene_res);
+    switch(current_scene) {
+
+    case SCENE_MAIN_MENU:
+        next_scene = scene_mm_update(scene_res);
+        scene_mm_draw(scene_res);
+        break;
+
+    case SCENE_LEVEL_0:
+        next_scene = scene_l0_update(scene_res);
+        scene_l0_draw(scene_res);
+        break;
+
+    default:
+        break;
+    }
+
+    if (next_scene != current_scene) {
+
+        /* Unload current scene */
+        switch(current_scene) {
+
+        case SCENE_MAIN_MENU:
+            scene_mm_unload(scene_res);
+            break;
+
+        case SCENE_LEVEL_0:
+            scene_l0_unload(scene_res);
+            break;
+
+        default:
+            break;
+        }
+
+        /* Load the next scene */
+        switch(next_scene) {
+
+        case SCENE_MAIN_MENU:
+            scene_mm_load(scene_res);
+            break;
+
+        case SCENE_LEVEL_0:
+            scene_l0_load(scene_res);
+            break;
+
+        default:
+            break;
+        }
+
+        current_scene = next_scene;
+    }
 
     hl_end_draw();
 }
@@ -46,13 +96,29 @@ main(void) {
         hl_scale_window(WINDOW_SCALE, WINDOW_SCALE);
 
         scene_res = scene_load_res();
+        current_scene = SCENE_MAIN_MENU;
+        next_scene = SCENE_MAIN_MENU;
 
-        scene_l1_load(scene_res);
+        scene_mm_load(scene_res);
+
         while(!hl_window_should_close()) {
             main_loop();
             hl_delay(16);
         }
-        scene_l1_unload(scene_res);
+
+        switch(current_scene) {
+
+        case SCENE_MAIN_MENU:
+            scene_mm_unload(scene_res);
+            break;
+
+        case SCENE_LEVEL_0:
+            scene_l0_unload(scene_res);
+            break;
+
+        default:
+            break;
+        }
 
         scene_unload_res(scene_res);
     }

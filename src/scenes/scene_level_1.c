@@ -16,13 +16,13 @@ struct scene_data {
 static struct scene_data* s;
 
 void
-scene_l1_load(scene_res_t* scene_res) {
+scene_l0_load(scene_res_t* scene_res) {
     s = malloc(sizeof(struct scene_data));
-    scene_l1_reload(scene_res);
+    scene_l0_reload(scene_res);
 }
 
 void
-scene_l1_reload(scene_res_t* scene_res) {
+scene_l0_reload(scene_res_t* scene_res) {
     s->player = player_new(64, 64);
 
     s->wall[0] = wall_new(0, 0, 16, 160);
@@ -37,10 +37,10 @@ scene_l1_reload(scene_res_t* scene_res) {
     s->block[2] = block_new(32, 96);
 }
 
-void 
-scene_l1_update(scene_res_t* scene_res) {
+scene_name_t 
+scene_l0_update(scene_res_t* scene_res) {
     if (hl_is_key_pressed(HL_KEY_X)) {
-        scene_l1_reload(scene_res);
+        scene_l0_reload(scene_res);
     }
 
 
@@ -101,29 +101,31 @@ scene_l1_update(scene_res_t* scene_res) {
 
     // block collision with other blocks
     for (int i = 0; i < L1_BLOCK_COUNT; i++) {
-    for (int j = 0; j < L1_BLOCK_COUNT; j++) {
-        if (i != j) {
-        if (aabb_is_overlapping(s->block[j].aabb, s->block[i].aabb)) {
-            s->block[j].aabb = aabb_resolve_collision(
-            s->block[j].aabb, 
-            s->player.direction,
-            s->block[i].aabb
-            );
+        for (int j = 0; j < L1_BLOCK_COUNT; j++) {
+            if (i != j) {
+                if (aabb_is_overlapping(s->block[j].aabb, s->block[i].aabb)) {
+                    s->block[j].aabb = aabb_resolve_collision(
+                    s->block[j].aabb, 
+                    s->player.direction,
+                    s->block[i].aabb
+                    );
 
-            // Make sure to also push player back
-            s->player.aabb = aabb_resolve_collision(
-            s->player.aabb, 
-            s->player.direction,
-            s->block[j].aabb
-            );
-        }
+                    // Make sure to also push player back
+                    s->player.aabb = aabb_resolve_collision(
+                    s->player.aabb, 
+                    s->player.direction,
+                    s->block[j].aabb
+                    );
+                }
+            }
         }
     }
-    }
+
+    return SCENE_LEVEL_0;
 }
 
 void
-scene_l1_draw(scene_res_t* scene_res) {
+scene_l0_draw(scene_res_t* scene_res) {
     /* walls */
     for (int i = 0; i < L1_WALL_COUNT; i++) {
         wall_draw(&s->wall[i]);
@@ -143,6 +145,6 @@ scene_l1_draw(scene_res_t* scene_res) {
 }
 
 void
-scene_l1_unload(scene_res_t* scene_res) {
+scene_l0_unload(scene_res_t* scene_res) {
     free(s);
 }
