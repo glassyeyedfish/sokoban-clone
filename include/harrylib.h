@@ -22,16 +22,6 @@
 ================================================================================
 */
 
-typedef enum { 
-    HL_RESULT_OK,
-    HL_RESULT_ERROR
-} hl_result_flag_t;
-
-typedef struct {
-    hl_result_flag_t flag;
-    char* err;
-} hl_result_t;
-
 typedef struct {
     SDL_Window* window;
     SDL_Renderer* renderer;
@@ -95,7 +85,7 @@ typedef struct {
 #define HL_GB3 (hl_color_t) { 200, 204, 202, 255 }
 
 /* window */
-hl_result_t hl_open_window(const char* title, int width, int height);
+int hl_open_window(const char* title, int width, int height);
 void hl_close_window(void);
 void hl_scale_window(float x, float y);
 
@@ -151,29 +141,22 @@ hl_context_t ctx = { 0 };
 ================================================================================
 */
 
-hl_result_t
+int
 hl_open_window(const char* title, int width, int height) {
-    hl_result_t r;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         fprintf(stderr, "SDL Error: %s", SDL_GetError());
-        r.flag = HL_RESULT_ERROR;
-        r.err = "failed to init SDL";
-        return r;
+        return -1;
     }
 
     if (IMG_Init(IMG_INIT_PNG) == 0) {
         fprintf(stderr, "IMG Error: %s", IMG_GetError());
-        r.flag = HL_RESULT_ERROR;
-        r.err = "failed to init SDL_image";
-        return r;
+        return -1;
     }
 
     if (TTF_Init() < 0) {
         fprintf(stderr, "TTF Error: %s", TTF_GetError());
-        r.flag = HL_RESULT_ERROR;
-        r.err = "failed to init SDL_ttf";
-        return r;
+        return -1;
     }
 
     ctx.window = SDL_CreateWindow(
@@ -184,24 +167,19 @@ hl_open_window(const char* title, int width, int height) {
 
     if (ctx.window == NULL) {
         fprintf(stderr, "SDL Error: %s", SDL_GetError());
-        r.flag = HL_RESULT_ERROR;
-        r.err = "failed to init SDL window";
-        return r;
+        return -1;
     }
 
     ctx.renderer = SDL_CreateRenderer(ctx.window, -1, 0);
 
     if (ctx.renderer == NULL) {
         fprintf(stderr, "SDL Error: %s", SDL_GetError());
-        r.flag = HL_RESULT_ERROR;
-        r.err = "failed to init SDL renderer";
-        return r;
+        return -1;
     }
 
     ctx.window_should_close = 0;
 
-    r.flag = HL_RESULT_OK;
-    return r;
+    return 0;
 }
 
 void 

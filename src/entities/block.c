@@ -5,6 +5,7 @@
 block_t 
 block_new(int x, int y) {
     return (block_t) {
+        0,
         DIRECTION_IDLE,
         (aabb_t) {x, y, 16, 16}
     };
@@ -12,13 +13,35 @@ block_new(int x, int y) {
 
 void 
 block_draw(block_t* block) {
-    hl_draw_rect(
+    hl_fill_rect(
         (hl_rect_t) {
             block->aabb.x + 1, 
             block->aabb.y + 1, 
             14, 
             14 
         },
-        HL_GB2
+        HL_GB1
     );
+
+    if (block->isOnButton) {
+        hl_draw_rect(
+            (hl_rect_t) {
+                block->aabb.x + 1, 
+                block->aabb.y + 1, 
+                14, 
+                14 
+            },
+            HL_GB3
+        );
+    } else {
+        hl_draw_rect(
+            (hl_rect_t) {
+                block->aabb.x + 1, 
+                block->aabb.y + 1, 
+                14, 
+                14 
+            },
+            HL_GB2
+        );
+    }
 }

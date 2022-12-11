@@ -83,16 +83,10 @@ main_loop(void) {
 
 int
 main(void) {
-    hl_result_t r;
-
-    r = hl_open_window(
-        WINDOW_TITLE,
-        WINDOW_SIZE * WINDOW_SCALE, 
-        WINDOW_SIZE * WINDOW_SCALE
-    );
-    if (r.flag == HL_RESULT_ERROR) {
-        fprintf(stderr, "[squaregame] error: %s", r.err);
-    } else {
+    if (
+        hl_open_window(WINDOW_TITLE, WINDOW_SIZE * WINDOW_SCALE, 
+        WINDOW_SIZE * WINDOW_SCALE) == 0 
+    ) {
         hl_scale_window(WINDOW_SCALE, WINDOW_SCALE);
 
         scene_res = scene_load_res();
@@ -121,9 +115,10 @@ main(void) {
         }
 
         scene_unload_res(scene_res);
+
+        hl_close_window();
     }
 
-    hl_close_window();
 
     return 0;
 }

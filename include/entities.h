@@ -32,11 +32,23 @@ void wall_draw(wall_t* wall);
  */
 
 typedef struct {
+    char isOnButton;
     direction_t direction;
     aabb_t aabb;
 } block_t;
 
 block_t block_new(int x, int y);
 void block_draw(block_t* block);
+
+/*
+ * BUTTON
+ */
+
+typedef struct {
+    aabb_t aabb;
+} button_t;
+
+button_t button_new(int x, int y);
+void button_draw(button_t* button);
 
 #endif
