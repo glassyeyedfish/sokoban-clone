@@ -2,7 +2,7 @@ CC = cc
 CFLAGS = -std=c99 -pedantic -Wall -Wextra -g -Iinclude
 LDFLAGS = -lSDL2 -lSDL2_ttf -lSDL2_image
 
-TGT = squaregame
+TGT = sokoban-clone
 SRC = $(shell find -type f -name "*.c")
 OBJ = $(SRC:./src/%.c=./build/%.o)
 SRC_DIR =  $(shell find src -type d)

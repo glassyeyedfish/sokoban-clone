@@ -1,6 +1,8 @@
 #ifndef ENTITIES_H
 #define ENTITIES_H
 
+#include<stdbool.h>
+
 #include "components.h"
 
 /*
@@ -32,7 +34,7 @@ void wall_draw(wall_t* wall);
  */
 
 typedef struct {
-    char isOnButton;
+    bool is_pressing_button;
     direction_t direction;
     aabb_t aabb;
 } block_t;

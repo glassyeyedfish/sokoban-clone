@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -44,6 +45,8 @@ scene_l0_reload(scene_res_t* scene_res) {
 
 scene_name_t 
 scene_l0_update(scene_res_t* scene_res) {
+    bool level_is_complete = true;
+
     if (hl_is_key_pressed(HL_KEY_X)) {
         scene_l0_reload(scene_res);
     }
@@ -130,14 +133,24 @@ scene_l0_update(scene_res_t* scene_res) {
     for (int i = 0; i < L0_BLOCK_COUNT; i++) {
         for (int j = 0; j < L0_BLOCK_COUNT; j++) {
             if (aabb_is_overlapping(s->block[i].aabb, s->button[j].aabb)) {
-                s->block[i].isOnButton = 1;
+                s->block[i].is_pressing_button = true;
                 j = L0_BLOCK_COUNT; // Break out of the inner loop
             } else {
-                s->block[i].isOnButton = 0;
+                s->block[i].is_pressing_button = false;
             }
         }
     }
 
+    // Return to main menu if level is finished.
+    for (int i = 0; i < L0_BLOCK_COUNT; i++) {
+        if (s->block->is_pressing_button == 0) {
+            level_is_complete = false;
+        }
+    }
+
+    if (level_is_complete) {
+        return SCENE_MAIN_MENU;
+    }
     return SCENE_LEVEL_0;
 }
 

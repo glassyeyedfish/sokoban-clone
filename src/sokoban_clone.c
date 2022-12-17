@@ -5,7 +5,7 @@
 
 #include "scenes.h"
 
-#define WINDOW_TITLE "Square Game v1.0.0-dev"
+#define WINDOW_TITLE "Sokoban Clone v1.0.0-dev"
 #define WINDOW_SIZE 160
 #define WINDOW_SCALE 5
 
