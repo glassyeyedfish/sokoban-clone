@@ -5,6 +5,10 @@
 
 #include "scenes.h"
 
+#ifdef __EMSCRIPTEN__
+#include "emscripten.h"
+#endif
+
 #define WINDOW_TITLE "Sokoban Clone v1.0.0-dev"
 #define WINDOW_SIZE 160
 #define WINDOW_SCALE 5
@@ -95,10 +99,18 @@ main(void) {
 
         scene_mm_load(scene_res);
 
+#ifdef __EMSCRIPTEN__
+
+        emscripten_set_main_loop(main_loop, 0, 1);
+
+#else
+
         while(!hl_window_should_close()) {
             main_loop();
             hl_delay(16);
         }
+
+#endif
 
         switch(current_scene) {
 

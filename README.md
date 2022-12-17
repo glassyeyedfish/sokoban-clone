@@ -1,7 +1,6 @@
-# Square Game
+# Sokoban Clone
 
-In order to finish a game, the plan is to make something incredibly simple, and 
-then iterate on it so it slowly becomes more and more complex.
+A clone of: https://en.wikipedia.org/wiki/Sokoban
 
 ## Resources Used
 
