@@ -6,10 +6,11 @@
 #include "scenes.h"
 
 #ifdef __EMSCRIPTEN__
-#include "emscripten.h"
+#include <emscripten.h>
+#include <emscripten/html5.h>
 #endif
 
-#define WINDOW_TITLE "Sokoban Clone v1.0.0-dev"
+#define WINDOW_TITLE "Sokoban Clone v1.0.1-dev"
 #define WINDOW_SIZE 160
 #define WINDOW_SCALE 5
 
