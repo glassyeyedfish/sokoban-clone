@@ -17,12 +17,13 @@ all: ${OBJ_DIR} ${TGT}
 
 web: ${WEB_DIR} ${SRC}
 	emcc ${SRC} ${CFLAGS} ${EMFLAGS} -o ${WEB_DIR}/index.html
+	cp src/default.html ${WEB_DIR}/index.html
 
 ${WEB_DIR}:
 	mkdir -p $@
 
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all ./${TGT} tests/test.taf
+	valgrind ./${TGT}
 
 ${OBJ_DIR}:
 	mkdir -p $@

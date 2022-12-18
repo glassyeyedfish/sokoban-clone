@@ -20,7 +20,7 @@ void scene_mm_draw(scene_res_t* scene_res){
 
     hl_draw_text(scene_res->font, "Sokoban Clone", 28, 48, HL_GB3);
     hl_draw_text(scene_res->font, "Press Z to", 28, 80, HL_GB3);
-    hl_draw_text(scene_res->font, "Start", 28, 96, HL_GB3);
+    hl_draw_text(scene_res->font, "start.", 28, 96, HL_GB3);
 }
 
 void scene_mm_unload(scene_res_t* scene_res){}
