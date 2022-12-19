@@ -1,6 +1,6 @@
 #include "components.h"
 
-int
+bool
 aabb_is_overlapping(aabb_t a, aabb_t b) {
     return     a.x < b.x + b.w 
         && a.x + a.w > b.x
