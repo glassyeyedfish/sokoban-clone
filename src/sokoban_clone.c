@@ -49,6 +49,11 @@ main_loop(void) {
         scene_l1_draw(scene_res);
         break;
 
+    case SCENE_LEVEL_2:
+        next_scene = scene_l2_update(scene_res);
+        scene_l2_draw(scene_res);
+        break;
+
     case SCENE_WIN:
         next_scene = scene_w_update(scene_res);
         scene_w_draw(scene_res);
@@ -75,6 +80,10 @@ main_loop(void) {
             scene_l1_unload(scene_res);
             break;
 
+        case SCENE_LEVEL_2:
+            scene_l2_unload(scene_res);
+            break;
+
         case SCENE_WIN:
             scene_w_unload(scene_res);
             break;
@@ -96,6 +105,10 @@ main_loop(void) {
 
         case SCENE_LEVEL_1:
             scene_l1_load(scene_res);
+            break;
+
+        case SCENE_LEVEL_2:
+            scene_l2_load(scene_res);
             break;
 
         case SCENE_WIN:
@@ -151,6 +164,10 @@ main(void) {
 
         case SCENE_LEVEL_1:
             scene_l1_unload(scene_res);
+            break;
+
+        case SCENE_LEVEL_2:
+            scene_l2_unload(scene_res);
             break;
 
         case SCENE_WIN:

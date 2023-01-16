@@ -11,6 +11,7 @@ typedef enum {
     SCENE_MAIN_MENU,
     SCENE_LEVEL_0,
     SCENE_LEVEL_1,
+    SCENE_LEVEL_2,
     SCENE_WIN
 } scene_name_t;
 
@@ -34,6 +35,12 @@ void scene_l1_reload(scene_res_t* scene_res);
 scene_name_t scene_l1_update(scene_res_t* scene_res);
 void scene_l1_draw(scene_res_t* scene_res);
 void scene_l1_unload(scene_res_t* scene_res);
+
+void scene_l2_load(scene_res_t* scene_res);
+void scene_l2_reload(scene_res_t* scene_res);
+scene_name_t scene_l2_update(scene_res_t* scene_res);
+void scene_l2_draw(scene_res_t* scene_res);
+void scene_l2_unload(scene_res_t* scene_res);
 
 void scene_w_load(scene_res_t* scene_res);
 void scene_w_reload(scene_res_t* scene_res);
